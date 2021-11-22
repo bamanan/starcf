@@ -5,12 +5,12 @@ import android.provider.BaseColumns;
 
 public interface StarContract {
 
-    String AUTHORITY = "fr.foursov.provider";
+    String AUTHORITY = "fr.istic.coulibaly.fazul.provider";
 
     Uri AUTHORITY_URI = Uri.parse("content://" + AUTHORITY);
 
     interface BusRoutes {
-        String CONTENT_PATH = "busroute";
+        String CONTENT_PATH = "busroutes";
         Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
         String CONTENT_TYPE =
                 "vnd.android.cursor.dir/vnd.fr.istic.starprovider.busroute";
@@ -28,7 +28,7 @@ public interface StarContract {
     }
 
     interface Trips {
-        String CONTENT_PATH = "trip";
+        String CONTENT_PATH = "trips";
         Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
         String CONTENT_TYPE =
                 "vnd.android.cursor.dir/vnd.fr.istic.starprovider.trip";
@@ -46,7 +46,7 @@ public interface StarContract {
     }
 
     interface Stops {
-        String CONTENT_PATH = "stop";
+        String CONTENT_PATH = "stops";
         Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
         String CONTENT_TYPE =
                 "vnd.android.cursor.dir/vnd.fr.istic.starprovider.stop";
@@ -63,7 +63,7 @@ public interface StarContract {
     }
 
     interface StopTimes {
-        String CONTENT_PATH = "stoptime";
+        String CONTENT_PATH = "stoptimes";
         Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
         // select stop_time.*, trip.*, calendar.*
         String CONTENT_TYPE =
@@ -102,7 +102,7 @@ public interface StarContract {
     }
 
     interface RouteDetails {
-        String CONTENT_PATH = "routedetail";
+        String CONTENT_PATH = "routedetails";
         Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
         // select stop.stop_name, stop_time.arrival_time
         String CONTENT_TYPE =
