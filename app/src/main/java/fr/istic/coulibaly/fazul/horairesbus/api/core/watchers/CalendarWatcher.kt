@@ -18,20 +18,25 @@ import java.util.*
 class CalendarWatcher(context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {
 
-    private var sharedPreferences: SharedPreferences =
-        applicationContext.getSharedPreferences(StarContract.AUTHORITY, Context.MODE_PRIVATE)
-    private var oldFieldId = sharedPreferences.getString(OLD_FIELD_ID, null)
+    private val sharedPreferences: SharedPreferences by lazy {
+        context.getSharedPreferences(StarContract.AUTHORITY, Context.MODE_PRIVATE)
+    }
+
 
     companion object {
-        const val NEW_DATA_AVAILABLE = "newDataAvailable"
-        const val NEW_FILE_NAME = "newFileName"
-        private const val OLD_FIELD_ID = "oldFieldId"
+        const val NEW_DATA_AVAILABLE = "data_available"
+        const val NEW_FILE_NAME = "file_name"
+        private const val OLD_FIELD_ID = "old_field_id"
     }
 
     override suspend fun doWork(): Result {
+        val oldFieldId = sharedPreferences.getString(OLD_FIELD_ID, null)
+
+
         return try {
             val response = ApiAdapter.apiClient.getLatestCalendar()
             val apiResponse = response.body()
+
             if (response.isSuccessful && apiResponse != null) {
 
                 val fields: List<ApiResponse.Record.Fields> =
@@ -54,16 +59,20 @@ class CalendarWatcher(context: Context, workerParams: WorkerParameters) :
                                         putString(NEW_FILE_NAME, field.fichier.filename)
                                         putBoolean(NEW_DATA_AVAILABLE, true)
                                         putString(OLD_FIELD_ID, field.id)
+                                        commit()
                                     }
                                     return@forEach
                                 } else {
+
                                     sharedPreferences.edit {
                                         putBoolean(NEW_DATA_AVAILABLE, false)
+                                        commit()
                                     }
                                 }
                             }
                         }
                     }
+
                 } catch (e: Exception) {
                     Log.e("Calendar Watcher", "Comparison error", e)
                 }

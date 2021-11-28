@@ -1,4 +1,4 @@
-package fr.istic.coulibaly.fazul.horairesbus.api.core
+package fr.istic.coulibaly.fazul.horairesbus.api.database
 
 import android.app.Application
 import fr.istic.coulibaly.fazul.horairesbus.api.database.AppDatabase

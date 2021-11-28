@@ -1,11 +1,14 @@
 package fr.istic.coulibaly.fazul.horairesbus.api.core.workers
 
 import android.content.Context
+import android.content.SharedPreferences
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import fr.istic.coulibaly.fazul.horairesbus.api.contract.StarContract
-import fr.istic.coulibaly.fazul.horairesbus.api.core.BusScheduleApplication
-import fr.istic.coulibaly.fazul.horairesbus.api.database.AppDatabase
+import fr.istic.coulibaly.fazul.horairesbus.api.core.watchers.CalendarWatcher
+import fr.istic.coulibaly.fazul.horairesbus.api.database.BusScheduleApplication
 import fr.istic.coulibaly.fazul.horairesbus.api.database.entity.*
 import fr.istic.coulibaly.fazul.horairesbus.api.utils.TextFileToEntity
 import java.io.File
@@ -13,13 +16,16 @@ import java.io.File
 class DataPersistenceWorker(appContext: Context, params: WorkerParameters) :
     CoroutineWorker(appContext, params) {
 
+    private val sharedPreferences: SharedPreferences by lazy {
+        appContext.getSharedPreferences(StarContract.AUTHORITY, Context.MODE_PRIVATE)
+    }
 
     override suspend fun doWork(): Result {
-        val directoryName = inputData.getString("fileName")
+        val directoryName = sharedPreferences.getString(CalendarWatcher.NEW_FILE_NAME, null)
 
         StarContract.FILES.forEach { fileName ->
             val path: String = applicationContext.getExternalFilesDir(null)
-                .toString() + File.separator.toString() + directoryName!!.removeSuffix(".zip") + File.separator.toString() +  fileName + ".txt"
+                .toString() + File.separator.toString() + directoryName!!.removeSuffix(".zip") + File.separator.toString() + fileName + ".txt"
 
             val busScheduleApplication = BusScheduleApplication()
 

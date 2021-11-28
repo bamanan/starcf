@@ -2,6 +2,7 @@ package fr.istic.coulibaly.fazul.horairesbus.api.core.workers
 
 import android.app.Activity
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
@@ -9,7 +10,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.work.*
 import fr.istic.coulibaly.fazul.horairesbus.MainActivity
+import fr.istic.coulibaly.fazul.horairesbus.api.contract.StarContract
 import fr.istic.coulibaly.fazul.horairesbus.api.core.services.ApiAdapter
+import fr.istic.coulibaly.fazul.horairesbus.api.core.watchers.CalendarWatcher
 import fr.istic.coulibaly.fazul.horairesbus.api.utils.ZipFileManager
 import kotlinx.coroutines.Dispatchers
 import okhttp3.ResponseBody
@@ -22,12 +25,18 @@ import java.util.zip.ZipFile
 
 class CalendarDownloaderWorker(private val appContext: Context, params: WorkerParameters) :
     CoroutineWorker(appContext, params) {
+
     companion object {
         const val TAG = "Calendar Download"
     }
 
+    private val sharedPreferences: SharedPreferences by lazy {
+        appContext.getSharedPreferences(StarContract.AUTHORITY, Context.MODE_PRIVATE)
+    }
+
     override suspend fun doWork(): Result {
-        val fileName = inputData.getString("fileName")!!
+        val fileName = sharedPreferences.getString(CalendarWatcher.NEW_FILE_NAME, null).toString()
+
         val call: Call<ResponseBody> =
             ApiAdapter.apiDownloadClient.downloadLatestCalendar(fileName)
         call.enqueue(object : Callback<ResponseBody> {
@@ -36,30 +45,15 @@ class CalendarDownloaderWorker(private val appContext: Context, params: WorkerPa
                 response: Response<ResponseBody>
             ) {
                 if (response.isSuccessful) {
-                    Log.d(TAG, "Server contacted and has file")
-
                     val downloaded = writeFileOnDisk(response.body()!!, fileName)
-
                     if (downloaded)
                         Result.success()
                     else
                         Result.failure()
-                } else {
-                    Toast.makeText(
-                        appContext,
-                        "Failed !",
-                        Toast.LENGTH_LONG
-                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Toast.makeText(
-                    appContext,
-                    "Failed !",
-                    Toast.LENGTH_LONG
-                ).show()
-                Result.failure()
             }
         }
         )
