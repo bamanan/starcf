@@ -1,0 +1,107 @@
+package fr.istic.coulibaly.fazul.horairesbus.api.core.workers
+
+import android.app.Activity
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.work.*
+import fr.istic.coulibaly.fazul.horairesbus.MainActivity
+import fr.istic.coulibaly.fazul.horairesbus.api.core.services.ApiAdapter
+import fr.istic.coulibaly.fazul.horairesbus.api.utils.ZipFileManager
+import kotlinx.coroutines.Dispatchers
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.*
+import java.util.zip.ZipFile
+
+
+class CalendarDownloaderWorker(private val appContext: Context, params: WorkerParameters) :
+    CoroutineWorker(appContext, params) {
+    companion object {
+        const val TAG = "Calendar Download"
+    }
+
+    override suspend fun doWork(): Result {
+        val fileName = inputData.getString("fileName")!!
+        val call: Call<ResponseBody> =
+            ApiAdapter.apiDownloadClient.downloadLatestCalendar(fileName)
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d(TAG, "Server contacted and has file")
+
+                    val downloaded = writeFileOnDisk(response.body()!!, fileName)
+
+                    if (downloaded)
+                        Result.success()
+                    else
+                        Result.failure()
+                } else {
+                    Toast.makeText(
+                        appContext,
+                        "Failed !",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(
+                    appContext,
+                    "Failed !",
+                    Toast.LENGTH_LONG
+                ).show()
+                Result.failure()
+            }
+        }
+        )
+
+        return Result.success()
+    }
+
+    private fun writeFileOnDisk(body: ResponseBody, fileName: String): Boolean {
+        return try {
+            val path: String = applicationContext.getExternalFilesDir(null)
+                .toString() + File.separator.toString() + fileName
+            val outputFile = File(path)
+            var inputStream: InputStream? = null
+            var outputStream: OutputStream? = null
+            try {
+                val fileReader = ByteArray(4096)
+                val fileSize = body.contentLength()
+                var fileSizeDownloaded: Long = 0
+                inputStream = body.byteStream()
+                outputStream = FileOutputStream(outputFile)
+                while (true) {
+                    val read: Int = inputStream.read(fileReader)
+                    if (read == -1) {
+                        break
+                    }
+                    outputStream.write(fileReader, 0, read)
+                    fileSizeDownloaded += read.toLong()
+                    Log.d("TAG", "file download: $fileSizeDownloaded of $fileSize")
+                }
+
+                ZipFileManager.unzip(outputFile)
+                outputStream.flush()
+
+                true
+            } catch (e: IOException) {
+                false
+            } finally {
+                inputStream?.close()
+                outputStream?.close()
+            }
+        } catch (e: IOException) {
+            false
+        }
+    }
+}

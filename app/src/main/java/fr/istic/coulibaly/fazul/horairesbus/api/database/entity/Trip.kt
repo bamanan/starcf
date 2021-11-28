@@ -8,17 +8,17 @@ import fr.istic.coulibaly.fazul.horairesbus.api.contract.StarContract
 
 @Entity(tableName = StarContract.Trips.CONTENT_PATH)
 data class Trip(
-        @PrimaryKey(autoGenerate = true) val _id: Int,
+        @PrimaryKey(autoGenerate = true) val _id: Int = 0,
         @ColumnInfo(name = StarContract.Trips.TripColumns.BLOCK_ID)
-        val blockId: Int,
+        val blockId: String,
         @ColumnInfo(name = StarContract.Trips.TripColumns.DIRECTION_ID)
-        val directionId: Int,
+        val directionId: String,
         @ColumnInfo(name = StarContract.Trips.TripColumns.ROUTE_ID)
-        val routeId: Int,
+        val routeId: String,
         @ColumnInfo(name = StarContract.Trips.TripColumns.SERVICE_ID)
-        val serviceId: Int,
+        val serviceId: String,
         @ColumnInfo(name = StarContract.Trips.TripColumns.HEADSIGN)
         val tripHeadSign: String,
         @ColumnInfo(name = StarContract.Trips.TripColumns.WHEELCHAIR_ACCESSIBLE)
-        val wheelchairAccessible: Boolean = false
+        val wheelchairAccessible: String
 )

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import fr.istic.coulibaly.fazul.horairesbus.api.contract.StarContract
 
 @Entity(tableName = StarContract.Calendar.CONTENT_PATH)
-data class Calendar(
+data class Calendar (
         @PrimaryKey(autoGenerate = true) val _id: Int = 0,
         @ColumnInfo(name = StarContract.Calendar.CalendarColumns.START_DATE)
         val startDate: String,

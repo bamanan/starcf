@@ -17,5 +17,5 @@ data class Stop(
         @ColumnInfo(name = StarContract.Stops.StopColumns.LONGITUDE)
         val longitude: String,
         @ColumnInfo(name = StarContract.Stops.StopColumns.WHEELCHAIR_BOARDING)
-        val wheelchairBoarding: Int
+        val wheelchairBoarding: String
 )

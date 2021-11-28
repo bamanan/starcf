@@ -6,15 +6,16 @@ import androidx.room.Query
 import fr.istic.coulibaly.fazul.horairesbus.api.contract.StarContract
 import fr.istic.coulibaly.fazul.horairesbus.api.database.entity.BusRoute
 import fr.istic.coulibaly.fazul.horairesbus.api.database.entity.Calendar
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BusRouteDao : DaoBase<BusRoute> {
     @Query("SELECT * FROM " + StarContract.BusRoutes.CONTENT_PATH)
-    override fun getAll(): List<BusRoute>
+    override fun getAll(): Flow<List<BusRoute>>
 
     @Query("SELECT * FROM " + StarContract.BusRoutes.CONTENT_PATH)
     fun getBusRoutesWithCursor(): Cursor
 
     @Query("DELETE FROM " + StarContract.BusRoutes.CONTENT_PATH)
-    override fun deleteAll(): Boolean
+    override fun deleteAll()
 }

@@ -7,11 +7,11 @@ import fr.istic.coulibaly.fazul.horairesbus.api.contract.StarContract
 
 @Entity(tableName = StarContract.StopTimes.CONTENT_PATH)
 data class StopTime(
-        @PrimaryKey(autoGenerate = true) val _id: Int,
+        @PrimaryKey(autoGenerate = true) val _id: Int = 0,
         @ColumnInfo(name = StarContract.StopTimes.StopTimeColumns.TRIP_ID)
-        val tripId: Int,
+        val tripId: String,
         @ColumnInfo(name = StarContract.StopTimes.StopTimeColumns.STOP_ID)
-        val stopId: Int,
+        val stopId: String,
         @ColumnInfo(name = StarContract.StopTimes.StopTimeColumns.ARRIVAL_TIME)
         val arrivalTime: String,
         @ColumnInfo(name = StarContract.StopTimes.StopTimeColumns.DEPARTURE_TIME)
