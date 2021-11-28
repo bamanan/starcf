@@ -2,8 +2,6 @@ package fr.istic.coulibaly.fazul.horairesbus.api.core.workers
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import fr.istic.coulibaly.fazul.horairesbus.api.contract.StarContract

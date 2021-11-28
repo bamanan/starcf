@@ -3,7 +3,6 @@ package fr.istic.coulibaly.fazul.horairesbus.api.utils
 import fr.istic.coulibaly.fazul.horairesbus.api.contract.StarContract
 import fr.istic.coulibaly.fazul.horairesbus.api.database.entity.*
 import java.io.File
-import java.nio.file.Files
 
 
 class TextFileToEntity(private val fileName: String) {

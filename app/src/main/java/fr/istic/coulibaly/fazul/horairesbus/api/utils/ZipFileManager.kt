@@ -1,15 +1,9 @@
 package fr.istic.coulibaly.fazul.horairesbus.api.utils
 
 import android.util.Log
-import com.google.gson.Gson
-import fr.istic.coulibaly.fazul.horairesbus.api.database.entity.Calendar
-import org.json.JSONObject
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.io.IOException
-import java.lang.Exception
-import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
 object ZipFileManager {
@@ -44,7 +38,7 @@ object ZipFileManager {
                     }
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Unzip exception", e);
+            Log.e(TAG, "Unzip exception", e)
         } finally {
             zipInputStream.close()
         }

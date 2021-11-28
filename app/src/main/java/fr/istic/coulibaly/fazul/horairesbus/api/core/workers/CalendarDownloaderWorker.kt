@@ -1,26 +1,19 @@
 package fr.istic.coulibaly.fazul.horairesbus.api.core.workers
 
-import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
-import androidx.work.*
-import fr.istic.coulibaly.fazul.horairesbus.MainActivity
+import androidx.work.CoroutineWorker
+import androidx.work.WorkerParameters
 import fr.istic.coulibaly.fazul.horairesbus.api.contract.StarContract
 import fr.istic.coulibaly.fazul.horairesbus.api.core.services.ApiAdapter
 import fr.istic.coulibaly.fazul.horairesbus.api.core.watchers.CalendarWatcher
 import fr.istic.coulibaly.fazul.horairesbus.api.utils.ZipFileManager
-import kotlinx.coroutines.Dispatchers
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
-import java.util.zip.ZipFile
 
 
 class CalendarDownloaderWorker(private val appContext: Context, params: WorkerParameters) :

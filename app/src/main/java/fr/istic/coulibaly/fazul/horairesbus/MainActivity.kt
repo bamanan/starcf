@@ -7,8 +7,6 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.lifecycleScope
 import androidx.work.*
 import fr.istic.coulibaly.fazul.horairesbus.api.contract.StarContract

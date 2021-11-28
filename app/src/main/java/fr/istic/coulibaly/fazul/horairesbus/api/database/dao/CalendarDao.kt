@@ -2,7 +2,6 @@ package fr.istic.coulibaly.fazul.horairesbus.api.database.dao
 
 import android.database.Cursor
 import androidx.room.Dao
-import androidx.room.Insert
 import androidx.room.Query
 import fr.istic.coulibaly.fazul.horairesbus.api.contract.StarContract
 import fr.istic.coulibaly.fazul.horairesbus.api.database.entity.Calendar

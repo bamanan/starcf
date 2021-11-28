@@ -125,11 +125,11 @@ internal interface StarContract {
     companion object {
         const val AUTHORITY = "fr.istic.coulibaly.fazul.provider"
         val AUTHORITY_URI = Uri.parse("content://" + AUTHORITY)
-         const val ROUTES = "routes"
-         const val STOPS = "stops"
-         const val TRIPS = "trips"
-         const val STOPTIMES = "stop_times"
-         const val CALENDAR = "calendar"
+        const val ROUTES = "routes"
+        const val STOPS = "stops"
+        const val TRIPS = "trips"
+        const val STOPTIMES = "stop_times"
+        const val CALENDAR = "calendar"
         val FILES = arrayOf(
             ROUTES, STOPS, TRIPS, STOPTIMES, CALENDAR
         )

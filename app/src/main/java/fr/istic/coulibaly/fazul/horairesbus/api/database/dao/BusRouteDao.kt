@@ -5,7 +5,6 @@ import androidx.room.Dao
 import androidx.room.Query
 import fr.istic.coulibaly.fazul.horairesbus.api.contract.StarContract
 import fr.istic.coulibaly.fazul.horairesbus.api.database.entity.BusRoute
-import fr.istic.coulibaly.fazul.horairesbus.api.database.entity.Calendar
 import kotlinx.coroutines.flow.Flow
 
 @Dao

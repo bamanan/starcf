@@ -1,7 +1,6 @@
 package fr.istic.coulibaly.fazul.horairesbus.api.database
 
 import android.app.Application
-import fr.istic.coulibaly.fazul.horairesbus.api.database.AppDatabase
 import fr.istic.coulibaly.fazul.horairesbus.api.database.repository.*
 
 class BusScheduleApplication : Application() {

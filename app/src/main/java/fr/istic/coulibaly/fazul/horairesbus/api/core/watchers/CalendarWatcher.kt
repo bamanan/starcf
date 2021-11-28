@@ -10,7 +10,6 @@ import androidx.work.WorkerParameters
 import fr.istic.coulibaly.fazul.horairesbus.api.contract.StarContract
 import fr.istic.coulibaly.fazul.horairesbus.api.core.services.ApiAdapter
 import fr.istic.coulibaly.fazul.horairesbus.api.core.services.ApiResponse
-import java.lang.Exception
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
