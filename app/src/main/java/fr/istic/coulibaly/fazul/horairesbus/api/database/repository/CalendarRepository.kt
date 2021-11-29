@@ -6,7 +6,7 @@ import fr.istic.coulibaly.fazul.horairesbus.api.database.entity.Calendar
 import kotlinx.coroutines.flow.Flow
 
 class CalendarRepository(private val calendarDao: CalendarDao) {
-    val all: Flow<List<Calendar>> = calendarDao.getAll()
+    val all: List<Calendar> = calendarDao.getAll()
 
     suspend fun insert(calendar: Calendar) {
         calendarDao.insert(calendar)

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface CalendarDao : DaoBase<Calendar> {
 
     @Query("SELECT * FROM " + StarContract.Calendar.CONTENT_PATH)
-    override fun getAll(): Flow<List<Calendar>>
+    override fun getAll(): List<Calendar>
 
     @Query("SELECT * FROM " + StarContract.Calendar.CONTENT_PATH)
     fun getCalendarWithCursor(): Cursor

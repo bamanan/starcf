@@ -17,6 +17,7 @@ class DataPersistenceWorker(appContext: Context, params: WorkerParameters) :
     private val sharedPreferences: SharedPreferences by lazy {
         appContext.getSharedPreferences(StarContract.AUTHORITY, Context.MODE_PRIVATE)
     }
+    private val busScheduleApplication = BusScheduleApplication(applicationContext)
 
     override suspend fun doWork(): Result {
         val directoryName = sharedPreferences.getString(CalendarWatcher.NEW_FILE_NAME, null)
@@ -25,15 +26,12 @@ class DataPersistenceWorker(appContext: Context, params: WorkerParameters) :
             val path: String = applicationContext.getExternalFilesDir(null)
                 .toString() + File.separator.toString() + directoryName!!.removeSuffix(".zip") + File.separator.toString() + fileName + ".txt"
 
-            val busScheduleApplication = BusScheduleApplication()
-
             val list = TextFileToEntity(path).entities()
 
             when (fileName) {
                 StarContract.CALENDAR -> {
                     busScheduleApplication.calendarRepository.insertAll(list as List<Calendar>)
                 }
-
                 StarContract.ROUTES -> {
                     busScheduleApplication.busRouteRepository.insertAll(list as List<BusRoute>)
                 }
@@ -53,4 +51,7 @@ class DataPersistenceWorker(appContext: Context, params: WorkerParameters) :
     }
 
 
+    companion object {
+        const val TAG = "Data Persistence"
+    }
 }

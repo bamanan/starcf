@@ -6,7 +6,7 @@ import fr.istic.coulibaly.fazul.horairesbus.api.database.entity.StopTime
 import kotlinx.coroutines.flow.Flow
 
 class StopTimeRepository(private val stopTimeDao: StopTimeDao) {
-    val allStopTimes: Flow<List<StopTime>> = stopTimeDao.getAll()
+    val allStopTimes: List<StopTime> = stopTimeDao.getAll()
 
     suspend fun insert(stopTime: StopTime) {
         stopTimeDao.insert(stopTime)

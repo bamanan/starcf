@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface StopDao : DaoBase<Stop> {
     @Query("SELECT * FROM " + StarContract.Stops.CONTENT_PATH)
-    override fun getAll(): Flow<List<Stop>>
+    override fun getAll(): List<Stop>
 
     @Query("DELETE FROM " + StarContract.Stops.CONTENT_PATH)
     override fun deleteAll()

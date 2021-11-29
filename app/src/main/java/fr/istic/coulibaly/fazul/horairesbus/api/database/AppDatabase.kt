@@ -30,12 +30,10 @@ abstract class AppDatabase : RoomDatabase() {
         private var INSTANCE: AppDatabase? = null
         fun database(context: Context): AppDatabase = INSTANCE ?: synchronized(this) {
             val instance = Room.databaseBuilder(
-                context.applicationContext,
+                context,
                 AppDatabase::class.java,
-                "db_bus_calendar.db"
-            )
-                .fallbackToDestructiveMigration()
-                .build()
+                "db_bus_calendar"
+            ).build()
             INSTANCE = instance
             instance
         }

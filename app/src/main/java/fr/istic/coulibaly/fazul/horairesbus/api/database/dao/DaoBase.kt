@@ -1,19 +1,15 @@
 package fr.istic.coulibaly.fazul.horairesbus.api.database.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import kotlinx.coroutines.flow.Flow
+import androidx.room.*
 
-@Dao
 interface DaoBase<T> {
     /**
      * Retrieve all records from database
      * @return List<T>
      */
 
-    fun getAll(): Flow<List<T>>
+
+    fun getAll(): List<T>
 
     /**
      * Insert a record in database

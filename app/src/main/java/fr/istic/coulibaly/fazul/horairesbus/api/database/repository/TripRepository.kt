@@ -6,7 +6,7 @@ import fr.istic.coulibaly.fazul.horairesbus.api.database.entity.Trip
 import kotlinx.coroutines.flow.Flow
 
 class TripRepository(private val tripDao: TripDao) {
-    val allTrips: Flow<List<Trip>> = tripDao.getAll()
+    val allTrips: List<Trip> = tripDao.getAll()
 
     suspend fun insert(trip: Trip) {
         tripDao.insert(trip)
