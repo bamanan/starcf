@@ -2,7 +2,7 @@ package fr.istic.coulibaly.fazul.horairesbus.api.core.workers
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
+import androidx.core.content.edit
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import fr.istic.coulibaly.fazul.horairesbus.api.contract.StarContract
@@ -21,6 +21,7 @@ class CalendarDownloaderWorker(private val appContext: Context, params: WorkerPa
 
     companion object {
         const val TAG = "Calendar Download"
+        const val FILE_DOWNLOADED = "files_downloaded"
     }
 
     private val sharedPreferences: SharedPreferences by lazy {
@@ -30,8 +31,11 @@ class CalendarDownloaderWorker(private val appContext: Context, params: WorkerPa
     override suspend fun doWork(): Result {
         val fileName = sharedPreferences.getString(CalendarWatcher.NEW_FILE_NAME, null).toString()
 
+        var result: Result = Result.success()
+
         val call: Call<ResponseBody> =
             ApiAdapter.apiDownloadClient.downloadLatestCalendar(fileName)
+
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(
                 call: Call<ResponseBody>,
@@ -39,19 +43,17 @@ class CalendarDownloaderWorker(private val appContext: Context, params: WorkerPa
             ) {
                 if (response.isSuccessful) {
                     val downloaded = writeFileOnDisk(response.body()!!, fileName)
-                    if (downloaded)
-                        Result.success()
-                    else
-                        Result.failure()
+                    result = Result.success()
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                result = Result.failure()
             }
         }
         )
 
-        return Result.success()
+        return result
     }
 
     private fun writeFileOnDisk(body: ResponseBody, fileName: String): Boolean {
@@ -74,14 +76,23 @@ class CalendarDownloaderWorker(private val appContext: Context, params: WorkerPa
                     }
                     outputStream.write(fileReader, 0, read)
                     fileSizeDownloaded += read.toLong()
-                    Log.d("TAG", "file download: $fileSizeDownloaded of $fileSize")
+//                    Log.d("TAG", "file download: $fileSizeDownloaded of $fileSize")
                 }
 
                 ZipFileManager.unzip(outputFile)
+                sharedPreferences.edit {
+                    putBoolean(FILE_DOWNLOADED, true)
+                    commit()
+                }
+
                 outputStream.flush()
 
                 true
             } catch (e: IOException) {
+                sharedPreferences.edit {
+                    putBoolean(FILE_DOWNLOADED, false)
+                    commit()
+                }
                 false
             } finally {
                 inputStream?.close()

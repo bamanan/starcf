@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface BusRouteDao : DaoBase<BusRoute> {
     @Query("SELECT * FROM " + StarContract.BusRoutes.CONTENT_PATH)
-    override fun getAll(): Flow<List<BusRoute>>
+    override fun getAll(): List<BusRoute>
 
     @Query("SELECT * FROM " + StarContract.BusRoutes.CONTENT_PATH)
     fun getBusRoutesWithCursor(): Cursor

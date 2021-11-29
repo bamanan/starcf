@@ -21,16 +21,8 @@ class CalendarWatcher(context: Context, workerParams: WorkerParameters) :
         context.getSharedPreferences(StarContract.AUTHORITY, Context.MODE_PRIVATE)
     }
 
-
-    companion object {
-        const val NEW_DATA_AVAILABLE = "data_available"
-        const val NEW_FILE_NAME = "file_name"
-        private const val OLD_FIELD_ID = "old_field_id"
-    }
-
     override suspend fun doWork(): Result {
         val oldFieldId = sharedPreferences.getString(OLD_FIELD_ID, null)
-
 
         return try {
             val response = ApiAdapter.apiClient.getLatestCalendar()
@@ -62,12 +54,16 @@ class CalendarWatcher(context: Context, workerParams: WorkerParameters) :
                                     }
                                     return@forEach
                                 } else {
-
                                     sharedPreferences.edit {
                                         putBoolean(NEW_DATA_AVAILABLE, false)
                                         commit()
                                     }
                                 }
+                            }
+                        } else {
+                            sharedPreferences.edit {
+                                putBoolean(NEW_DATA_AVAILABLE, false)
+                                commit()
                             }
                         }
                     }
@@ -84,4 +80,15 @@ class CalendarWatcher(context: Context, workerParams: WorkerParameters) :
             Result.failure()
         }
     }
+
+
+    companion object {
+        const val NEW_DATA_AVAILABLE = "data_available"
+        const val NEW_FILE_NAME = "file_name"
+        const val DB_EMPTY = "db_empty"
+        const val TAG = "Calendar Watcher"
+        private const val OLD_FIELD_ID = "old_field_id"
+    }
+
+
 }

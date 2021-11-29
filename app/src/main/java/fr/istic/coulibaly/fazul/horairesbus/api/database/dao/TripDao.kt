@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TripDao : DaoBase<Trip> {
     @Query("SELECT * FROM " + StarContract.Trips.CONTENT_PATH)
-    override fun getAll(): Flow<List<Trip>>
+    override fun getAll(): List<Trip>
 
     @Query("DELETE FROM " + StarContract.Trips.CONTENT_PATH)
     override fun deleteAll()
