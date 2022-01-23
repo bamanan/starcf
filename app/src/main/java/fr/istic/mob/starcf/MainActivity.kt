@@ -4,6 +4,7 @@ import android.app.*
 import android.content.*
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
@@ -77,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         val firstLaunch: Boolean = appSharedPreferences.getBoolean(FIRST_LAUNCH, true)
 
         lifecycleScope.launch(Dispatchers.Main) {
+
             if (firstLaunch) {
                 // Download calendar if no data in database
                 onceCalendarWatcher.setConstraints(constraints)
@@ -155,6 +157,18 @@ class MainActivity : AppCompatActivity() {
                     })
 
             }
+
+            val cursor = contentResolver
+                .query(
+                    StarContract.BusRoutes.CONTENT_URI,
+                    null, null, null, ""
+                )
+            while (cursor!!.moveToNext()) {
+                val _id = cursor.getString(1)
+                val shortName = cursor.getString(2)
+                Log.d("TAG", "dataformprovider $_id $shortName")
+            }
+
             createPeriodicCalendarWatcherService()
         }
     }
