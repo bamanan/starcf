@@ -4,7 +4,6 @@ import android.app.*
 import android.content.*
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
@@ -93,27 +92,58 @@ class MainActivity : AppCompatActivity() {
                 workManager.getWorkInfoByIdLiveData(downloadWork.id).observe(
                     this@MainActivity,
                     { workInfo ->
-                        if (workInfo.state == WorkInfo.State.RUNNING) {
-                            launchProgressBar(
-                                downloadWork.id,
-                                CalendarDownloaderWorker.TAG
-                            )
+                        when (workInfo.state) {
+                            WorkInfo.State.RUNNING -> {
+                                launchProgressBar(
+                                    downloadWork.id,
+                                    CalendarDownloaderWorker.TAG
+                                )
+                            }
+                            WorkInfo.State.SUCCEEDED -> {
+                                tvProgression.text = resources.getText(R.string.download_succeeded)
+                                launchProgressBar(
+                                    dataPersistenceWork.id,
+                                    DataPersistenceWorker.TAG
+                                )
+                            }
+                            WorkInfo.State.BLOCKED -> {
+                                tvProgression.text = resources.getText(R.string.download_blocked)
+                            }
+                            WorkInfo.State.CANCELLED -> {
+                                tvProgression.text = resources.getText(R.string.download_canceled)
+                            }
+                            WorkInfo.State.FAILED -> {
+                                tvProgression.text = resources.getText(R.string.download_failed)
+                            }
+                            else -> {
+                                //No Action
+                            }
                         }
                     })
 
                 workManager.getWorkInfoByIdLiveData(dataPersistenceWork.id).observe(
                     this@MainActivity,
                     { workInfo ->
-                        if (workInfo.state == WorkInfo.State.RUNNING) {
-                            launchProgressBar(
-                                downloadWork.id,
-                                DataPersistenceWorker.TAG
-                            )
+                        when (workInfo.state) {
+                            WorkInfo.State.SUCCEEDED -> {
+                                tvProgression.text =
+                                    resources.getText(R.string.persistence_succedded)
+                                appSharedPreferences.edit().putBoolean(FIRST_LAUNCH, false).apply()
+                            }
+                            WorkInfo.State.CANCELLED -> {
+                                tvProgression.text = resources.getText(R.string.persistence_failed)
+                                appSharedPreferences.edit().putBoolean(FIRST_LAUNCH, true).apply()
+                            }
+                            WorkInfo.State.FAILED -> {
+                                tvProgression.text = resources.getText(R.string.persistence_failed)
+                                appSharedPreferences.edit().putBoolean(FIRST_LAUNCH, true).apply()
+                            }
+                            else -> {
+                                //No Action
+                            }
                         }
                     })
 
-//                downloadAndPersist()
-                appSharedPreferences.edit().putBoolean(FIRST_LAUNCH, false).apply()
             }
 
             createPeriodicCalendarWatcherService()

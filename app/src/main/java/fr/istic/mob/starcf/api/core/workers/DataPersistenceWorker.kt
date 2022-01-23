@@ -39,12 +39,8 @@ class DataPersistenceWorker(appContext: Context, params: WorkerParameters) :
             .toString() + File.separator.toString() + calendarName
         val directoryName = path.removeSuffix(".zip")
 
-        val firstUpdate = workDataOf(Progress to 0)
-        val lastUpdate = workDataOf(Progress to 100)
-
         var result = Result.failure()
 
-        setProgress(firstUpdate)
         try {
             ZipFileManager.zipFile(path).use { zip ->
                 zip.entries().asSequence()
@@ -66,10 +62,12 @@ class DataPersistenceWorker(appContext: Context, params: WorkerParameters) :
                                 val list: List<Any> = TextFileToEntity(filePath).entities()
                                 when (entry.name.removeSuffix(".txt")) {
                                     StarContract.CALENDAR -> {
-                                        setProgress(firstUpdate)
+
                                         val calendars = list as List<Calendar>
                                         database.calendarRepository.insert(calendars)
                                         Log.d(TAG, "Storing calendar...")
+
+                                        //Progression
                                         val totalSize = list.size
                                         if (totalSize > 0) {
                                             for (i in 0..totalSize) {
@@ -79,12 +77,13 @@ class DataPersistenceWorker(appContext: Context, params: WorkerParameters) :
                                                 setProgress(currentUpdate)
                                             }
                                         }
-                                        setProgress(lastUpdate)
                                     }
                                     StarContract.ROUTES -> {
-                                        setProgress(firstUpdate)
                                         val routes = list as List<BusRoute>
                                         database.routeRepository.insert(routes)
+                                        Log.d(TAG, "Storing routes...")
+
+                                        //Progression
                                         val totalSize = list.size
                                         if (totalSize > 0) {
                                             for (i in 0..totalSize) {
@@ -94,13 +93,13 @@ class DataPersistenceWorker(appContext: Context, params: WorkerParameters) :
                                                 setProgress(currentUpdate)
                                             }
                                         }
-                                        Log.d(TAG, "Storing routes...")
-                                        setProgress(lastUpdate)
                                     }
                                     StarContract.STOPS -> {
-                                        setProgress(firstUpdate)
                                         val stops = list as List<Stop>
                                         database.stopRepository.insert(stops)
+                                        Log.d(TAG, "Storing stops...")
+
+                                        //Progression
                                         val totalSize = list.size
                                         if (totalSize > 0) {
                                             for (i in 0..totalSize) {
@@ -110,14 +109,14 @@ class DataPersistenceWorker(appContext: Context, params: WorkerParameters) :
                                                 setProgress(currentUpdate)
                                             }
                                         }
-                                        Log.d(TAG, "Storing routes...")
-                                        setProgress(lastUpdate)
+
                                     }
                                     StarContract.STOP_TIMES -> {
-                                        setProgress(firstUpdate)
                                         val stopTimes = list as List<StopTime>
                                         database.stopTimeRepository.insert(stopTimes)
                                         Log.d(TAG, "Storing Stop times...")
+
+                                        //Progression
                                         val totalSize = list.size
                                         if (totalSize > 0) {
                                             for (i in 0..totalSize) {
@@ -127,14 +126,13 @@ class DataPersistenceWorker(appContext: Context, params: WorkerParameters) :
                                                 setProgress(currentUpdate)
                                             }
                                         }
-                                        Log.d(TAG, "Storing routes...")
-                                        setProgress(lastUpdate)
                                     }
                                     StarContract.TRIPS -> {
-                                        setProgress(firstUpdate)
                                         val trips = list as List<Trip>
                                         database.tripRepository.insert(trips)
                                         Log.d(TAG, "Storing trips...")
+
+                                        //Progression
                                         val totalSize = list.size
                                         if (totalSize > 0) {
                                             for (i in 0..totalSize) {
@@ -144,8 +142,6 @@ class DataPersistenceWorker(appContext: Context, params: WorkerParameters) :
                                                 setProgress(currentUpdate)
                                             }
                                         }
-                                        Log.d(TAG, "Storing routes...")
-                                        setProgress(lastUpdate)
                                     }
                                 }
 

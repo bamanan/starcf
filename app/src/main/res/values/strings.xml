@@ -4,4 +4,12 @@
     <string name="channel_name" translatable="false">StarCF</string>
     <string name="channel_description" translatable="false">Star notification channel</string>
     <string name="provider_write_permission" translatable="false">Permission provider</string>
+    <string name="downloading" translatable="false">Téléchargement en cours....</string>
+    <string name="download_blocked" translatable="false">Téléchargement bloqué !</string>
+    <string name="download_failed" translatable="false">Téléchargement échoué !</string>
+    <string name="download_canceled" translatable="false">Téléchargement annulé !</string>
+    <string name="download_succeeded" translatable="false">Téléchargement effectué avec succès!</string>
+    <string name="persistence_failed" translatable="false">Echec du remplissage de la base de données !</string>
+    <string name="persistence_blocked" translatable="false">Echec du remplissage de la base de données !</string>
+    <string name="persistence_succedded" translatable="false">Base de données remplie avec succès!</string>
 </resources>
