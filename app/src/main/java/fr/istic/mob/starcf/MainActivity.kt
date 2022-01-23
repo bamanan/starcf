@@ -5,15 +5,19 @@ import android.content.*
 import android.os.Build
 import android.os.Bundle
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.work.*
 import fr.istic.mob.starcf.api.contract.StarContract
 import fr.istic.mob.starcf.api.core.watchers.CalendarWatcher
 import fr.istic.mob.starcf.api.core.workers.CalendarDownloaderWorker
 import fr.istic.mob.starcf.api.core.workers.DataPersistenceWorker
+import fr.istic.mob.starcf.api.database.BusScheduleApplication
+import fr.istic.mob.starcf.api.database.entity.BusRoute
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -53,12 +57,22 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvPercentage: TextView
     private lateinit var tvProgression: TextView
 
+    private lateinit var spinner: Spinner
+    private lateinit var routesLiveData: LiveData<List<BusRoute>>
+    private val spinnerViewModel: SpinnerViewModel by viewModels {
+        SpinnerViewModelFactory(database = BusScheduleApplication(applicationContext))
+    }
+    val routes = mutableListOf<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
         progressBar = findViewById(R.id.progressBar)
         tvPercentage = findViewById(R.id.tvPercentage)
         tvProgression = findViewById(R.id.tvProgression)
+        spinner = findViewById(R.id.spinner)
 
         appSharedPreferences =
             applicationContext.getSharedPreferences(StarContract.AUTHORITY, MODE_PRIVATE)
@@ -100,10 +114,12 @@ class MainActivity : AppCompatActivity() {
                                 )
                             }
                             WorkInfo.State.SUCCEEDED -> {
-                                tvProgression.text = resources.getText(R.string.download_succeeded)
+                                tvProgression.text =
+                                    resources.getText(R.string.download_succeeded)
                             }
                             WorkInfo.State.CANCELLED -> {
-                                tvProgression.text = resources.getText(R.string.download_canceled)
+                                tvProgression.text =
+                                    resources.getText(R.string.download_canceled)
                             }
                             WorkInfo.State.FAILED -> {
                                 tvProgression.text = resources.getText(R.string.download_failed)
@@ -127,15 +143,20 @@ class MainActivity : AppCompatActivity() {
                             WorkInfo.State.SUCCEEDED -> {
                                 tvProgression.text =
                                     resources.getText(R.string.persistence_succedded)
-                                appSharedPreferences.edit().putBoolean(FIRST_LAUNCH, false).apply()
+                                appSharedPreferences.edit().putBoolean(FIRST_LAUNCH, false)
+                                    .apply()
                             }
                             WorkInfo.State.CANCELLED -> {
-                                tvProgression.text = resources.getText(R.string.persistence_failed)
-                                appSharedPreferences.edit().putBoolean(FIRST_LAUNCH, true).apply()
+                                tvProgression.text =
+                                    resources.getText(R.string.persistence_failed)
+                                appSharedPreferences.edit().putBoolean(FIRST_LAUNCH, true)
+                                    .apply()
                             }
                             WorkInfo.State.FAILED -> {
-                                tvProgression.text = resources.getText(R.string.persistence_failed)
-                                appSharedPreferences.edit().putBoolean(FIRST_LAUNCH, true).apply()
+                                tvProgression.text =
+                                    resources.getText(R.string.persistence_failed)
+                                appSharedPreferences.edit().putBoolean(FIRST_LAUNCH, true)
+                                    .apply()
                             }
                             else -> {
                                 //No Action
@@ -144,7 +165,6 @@ class MainActivity : AppCompatActivity() {
                     })
 
             }
-
             createPeriodicCalendarWatcherService()
         }
     }
@@ -156,7 +176,7 @@ class MainActivity : AppCompatActivity() {
                 CalendarWatcher.NEW_FILE_NAME
             ) != null
         ) {
-//            downloadAndPersist()
+            downloadAndPersist()
         }
     }
 
@@ -294,7 +314,7 @@ class MainActivity : AppCompatActivity() {
         // set up max value for progress bar
         progressBar.max = 100
 
-       // val workManager = WorkManager.getInstance(this@MainActivity)
+        // val workManager = WorkManager.getInstance(this@MainActivity)
 
         workManager.getWorkInfoByIdLiveData(workId).observe(
             this@MainActivity,
@@ -313,6 +333,7 @@ class MainActivity : AppCompatActivity() {
                 }
             })
     }
+
 
 }
 
