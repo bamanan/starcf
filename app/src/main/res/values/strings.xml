@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">Horaires de Bus Coulibaly Fazul</string>
-
+    <string name="app_name" translatable="false">StarCF</string>
+    <string name="bus_icon" translatable="false">Icone de bus</string>
+    <string name="channel_name" translatable="false">StarCF</string>
+    <string name="channel_description" translatable="false">Star notification channel</string>
+    <string name="provider_write_permission" translatable="false">Permission provider</string>
 </resources>
