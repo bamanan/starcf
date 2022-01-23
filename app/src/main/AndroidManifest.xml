@@ -20,6 +20,10 @@
         android:permissionGroup="starcf.permission.READ_WRITE"
         android:protectionLevel="normal" />
 
+
+    <uses-permission android:name="starcf.permission.WRITE_STAR_PROVIDER" />
+    <uses-permission android:name="starcf.permission.READ_WRITE" />
+
     <application
         android:allowBackup="false"
         android:icon="@drawable/bus_icon"
@@ -27,8 +31,8 @@
         android:largeHeap="true"
         android:roundIcon="@drawable/bus_icon"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.Star2CF">
+        android:theme="@style/Theme.Star2CF"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"

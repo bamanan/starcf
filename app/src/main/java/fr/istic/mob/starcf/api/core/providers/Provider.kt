@@ -9,6 +9,7 @@ import android.util.Log
 import fr.istic.mob.starcf.api.contract.StarContract
 import fr.istic.mob.starcf.api.database.BusScheduleApplication
 
+
 class Provider : ContentProvider() {
     companion object {
         const val TAG = "Provider"
@@ -23,11 +24,9 @@ class Provider : ContentProvider() {
         private val URI_MATCHER = UriMatcher(UriMatcher.NO_MATCH)
     }
 
-    private val database: BusScheduleApplication by lazy {
-        BusScheduleApplication(context!!)
-    }
+    private lateinit var database: BusScheduleApplication
 
-    override fun onCreate(): Boolean {
+    init {
         URI_MATCHER.addURI(
             StarContract.AUTHORITY,
             StarContract.BusRoutes.CONTENT_PATH,
@@ -60,7 +59,10 @@ class Provider : ContentProvider() {
             StarContract.RoutesForStop.CONTENT_PATH,
             QUERY_ROUTES_FOR_STOP
         )
+    }
 
+    override fun onCreate(): Boolean {
+        database = BusScheduleApplication(context!!)
         return true
     }
 
@@ -208,7 +210,6 @@ class Provider : ContentProvider() {
             Log.d(TAG, "Query Error...", e)
         }
 
-
         return result
     }
 
@@ -250,3 +251,4 @@ class Provider : ContentProvider() {
         return 0
     }
 }
+

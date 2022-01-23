@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.core.content.edit
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import androidx.work.workDataOf
 import fr.istic.mob.starcf.api.contract.StarContract
 import fr.istic.mob.starcf.api.core.watchers.CalendarWatcher
 import fr.istic.mob.starcf.api.database.BusScheduleApplication
@@ -67,85 +66,36 @@ class DataPersistenceWorker(appContext: Context, params: WorkerParameters) :
                                         database.calendarRepository.insert(calendars)
                                         Log.d(TAG, "Storing calendar...")
 
-                                        //Progression
-                                        val totalSize = list.size
-                                        if (totalSize > 0) {
-                                            for (i in 0..totalSize) {
-                                                val percentage = (i * 100).div(totalSize)
-                                                val currentUpdate =
-                                                    workDataOf(Progress to percentage)
-                                                setProgress(currentUpdate)
-                                            }
-                                        }
+
                                     }
                                     StarContract.ROUTES -> {
                                         val routes = list as List<BusRoute>
                                         database.routeRepository.insert(routes)
                                         Log.d(TAG, "Storing routes...")
 
-                                        //Progression
-                                        val totalSize = list.size
-                                        if (totalSize > 0) {
-                                            for (i in 0..totalSize) {
-                                                val percentage = (i * 100).div(totalSize)
-                                                val currentUpdate =
-                                                    workDataOf(Progress to percentage)
-                                                setProgress(currentUpdate)
-                                            }
-                                        }
+
                                     }
                                     StarContract.STOPS -> {
                                         val stops = list as List<Stop>
                                         database.stopRepository.insert(stops)
                                         Log.d(TAG, "Storing stops...")
 
-                                        //Progression
-                                        val totalSize = list.size
-                                        if (totalSize > 0) {
-                                            for (i in 0..totalSize) {
-                                                val percentage = (i * 100).div(totalSize)
-                                                val currentUpdate =
-                                                    workDataOf(Progress to percentage)
-                                                setProgress(currentUpdate)
-                                            }
-                                        }
 
                                     }
                                     StarContract.STOP_TIMES -> {
                                         val stopTimes = list as List<StopTime>
                                         database.stopTimeRepository.insert(stopTimes)
                                         Log.d(TAG, "Storing Stop times...")
-
-                                        //Progression
-                                        val totalSize = list.size
-                                        if (totalSize > 0) {
-                                            for (i in 0..totalSize) {
-                                                val percentage = (i * 100).div(totalSize)
-                                                val currentUpdate =
-                                                    workDataOf(Progress to percentage)
-                                                setProgress(currentUpdate)
-                                            }
-                                        }
                                     }
                                     StarContract.TRIPS -> {
                                         val trips = list as List<Trip>
                                         database.tripRepository.insert(trips)
                                         Log.d(TAG, "Storing trips...")
-
-                                        //Progression
-                                        val totalSize = list.size
-                                        if (totalSize > 0) {
-                                            for (i in 0..totalSize) {
-                                                val percentage = (i * 100).div(totalSize)
-                                                val currentUpdate =
-                                                    workDataOf(Progress to percentage)
-                                                setProgress(currentUpdate)
-                                            }
-                                        }
                                     }
                                 }
 
                             }
+
                     }
                 Log.d(TAG, "Persistence completed !")
                 result = Result.success()

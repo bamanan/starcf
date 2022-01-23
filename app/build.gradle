@@ -49,6 +49,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.ktstdlib_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutines"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutines"
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
 
     // Room components
     implementation "androidx.room:room-common:$rootProject.roomVersion"
