@@ -101,13 +101,6 @@ class MainActivity : AppCompatActivity() {
                             }
                             WorkInfo.State.SUCCEEDED -> {
                                 tvProgression.text = resources.getText(R.string.download_succeeded)
-                                launchProgressBar(
-                                    dataPersistenceWork.id,
-                                    DataPersistenceWorker.TAG
-                                )
-                            }
-                            WorkInfo.State.BLOCKED -> {
-                                tvProgression.text = resources.getText(R.string.download_blocked)
                             }
                             WorkInfo.State.CANCELLED -> {
                                 tvProgression.text = resources.getText(R.string.download_canceled)
@@ -125,6 +118,12 @@ class MainActivity : AppCompatActivity() {
                     this@MainActivity,
                     { workInfo ->
                         when (workInfo.state) {
+                            WorkInfo.State.RUNNING -> {
+                                launchProgressBar(
+                                    dataPersistenceWork.id,
+                                    DataPersistenceWorker.TAG
+                                )
+                            }
                             WorkInfo.State.SUCCEEDED -> {
                                 tvProgression.text =
                                     resources.getText(R.string.persistence_succedded)
@@ -157,7 +156,7 @@ class MainActivity : AppCompatActivity() {
                 CalendarWatcher.NEW_FILE_NAME
             ) != null
         ) {
-            downloadAndPersist()
+//            downloadAndPersist()
         }
     }
 
@@ -290,11 +289,12 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun launchProgressBar(workId: UUID, work: String) {
+        progressBar = findViewById(R.id.progressBar)
         progressBar.progress = 0
-        progressStatus = 0
-
         // set up max value for progress bar
         progressBar.max = 100
+
+        val workManager = WorkManager.getInstance(this@MainActivity)
 
         workManager.getWorkInfoByIdLiveData(workId).observe(
             this@MainActivity,
@@ -303,7 +303,11 @@ class MainActivity : AppCompatActivity() {
                     val progress: String = CalendarDownloaderWorker.Progress
                     val workProgress = workInfo.progress
                     val value = workProgress.getLong(progress, 0).toInt()
-                    progressBar.progress = value
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        progressBar.setProgress(value, false)
+                    } else {
+                        progressBar.progress = value
+                    }
                     tvPercentage.text = value.toString()
                     tvProgression.text = "${work} en cours..........."
                 }

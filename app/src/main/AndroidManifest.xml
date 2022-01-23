@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="fr.istic.mob.starcf">
+    package="fr.istic.mob.starcf"
+    android:networkSecurityConfig="@xml/network_security_config"
+    android:targetSandboxVersion="1"
+    tools:targetApi="o">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -24,6 +27,7 @@
         android:largeHeap="true"
         android:roundIcon="@drawable/bus_icon"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Star2CF">
         <activity
             android:name=".MainActivity"
