@@ -79,8 +79,8 @@ class MainActivity : AppCompatActivity() {
                 val onceCalendarWatcherWork = onceCalendarWatcher.build()
                 downloadWorker.setConstraints(constraints)
                 dataPersistenceWorker.setConstraints(constraints)
-                val dataPersistenceWork = dataPersistenceWorker.build()
                 val downloadWork = downloadWorker.build()
+                val dataPersistenceWork = dataPersistenceWorker.build()
 
                 // Enqueue download and persistence works
                 workManager
@@ -294,7 +294,7 @@ class MainActivity : AppCompatActivity() {
         // set up max value for progress bar
         progressBar.max = 100
 
-        val workManager = WorkManager.getInstance(this@MainActivity)
+       // val workManager = WorkManager.getInstance(this@MainActivity)
 
         workManager.getWorkInfoByIdLiveData(workId).observe(
             this@MainActivity,
