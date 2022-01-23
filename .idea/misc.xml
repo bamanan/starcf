@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Bamanan/Projets/mob/horairesbus/app/src/main/res/drawable/circular_progress_bar.xml" value="0.1" />
         <entry key="..\:/Users/Bamanan/Projets/mob/horairesbus/app/src/main/res/drawable/progress_states.xml" value="0.15" />
         <entry key="..\:/Users/Bamanan/Projets/mob/horairesbus/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/Bamanan/Projets/mob/horairesbus/app/src/main/res/layout/homepage.xml" value="0.17527173913043478" />
