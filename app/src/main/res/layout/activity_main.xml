@@ -61,15 +61,5 @@
         app:layout_constraintVertical_bias="0.144"
         app:srcCompat="@drawable/bus_icon" />
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvProgression"
-        app:layout_constraintVertical_bias="0.311"
-        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

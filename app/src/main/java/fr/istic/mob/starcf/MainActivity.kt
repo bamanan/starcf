@@ -5,19 +5,15 @@ import android.content.*
 import android.os.Build
 import android.os.Bundle
 import android.widget.*
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.work.*
 import fr.istic.mob.starcf.api.contract.StarContract
 import fr.istic.mob.starcf.api.core.watchers.CalendarWatcher
 import fr.istic.mob.starcf.api.core.workers.CalendarDownloaderWorker
 import fr.istic.mob.starcf.api.core.workers.DataPersistenceWorker
-import fr.istic.mob.starcf.api.database.BusScheduleApplication
-import fr.istic.mob.starcf.api.database.entity.BusRoute
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -57,11 +53,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvPercentage: TextView
     private lateinit var tvProgression: TextView
 
-    private lateinit var spinner: Spinner
-    private lateinit var routesLiveData: LiveData<List<BusRoute>>
-    private val spinnerViewModel: SpinnerViewModel by viewModels {
-        SpinnerViewModelFactory(database = BusScheduleApplication(applicationContext))
-    }
     val routes = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +63,6 @@ class MainActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
         tvPercentage = findViewById(R.id.tvPercentage)
         tvProgression = findViewById(R.id.tvProgression)
-        spinner = findViewById(R.id.spinner)
 
         appSharedPreferences =
             applicationContext.getSharedPreferences(StarContract.AUTHORITY, MODE_PRIVATE)
