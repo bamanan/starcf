@@ -12,9 +12,7 @@ internal interface StarContract {
         const val TRIPS = "trips"
         const val STOP_TIMES = "stop_times"
         const val CALENDAR = "calendar"
-        val FILES = arrayOf(
-            ROUTES, STOPS, TRIPS, STOP_TIMES, CALENDAR
-        )
+
     }
 
     interface BusRoutes {
@@ -33,9 +31,10 @@ internal interface StarContract {
         companion object {
             const val CONTENT_PATH = "busroutes"
             val CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH)
-            const val CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.starcf.busroutes"
+            const val CONTENT_TYPE =
+                "vnd.android.cursor.dir/vnd.fr.istic.mob.starcf.busroutes"
             const val CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/vnd.fr.istic.mob.starcf.busroutes"
+                "vnd.android.cursor.item/vnd.fr.istic.mob.starcf.busroute"
         }
     }
 
@@ -56,7 +55,8 @@ internal interface StarContract {
             const val CONTENT_PATH = "trips"
             val CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH)
             const val CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.starcf.trips"
-            const val CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.fr.istic.mob.starcf.trip"
+            const val CONTENT_ITEM_TYPE =
+                "vnd.android.cursor.item/vnd.fr.istic.mob.starcf.trip"
         }
     }
 
@@ -76,7 +76,8 @@ internal interface StarContract {
             const val CONTENT_PATH = "stops"
             val CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH)
             const val CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.starcf.stops"
-            const val CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.fr.istic.mob.starcf.stop"
+            const val CONTENT_ITEM_TYPE =
+                "vnd.android.cursor.item/vnd.fr.istic.mob.starcf.stop"
         }
     }
 
@@ -97,7 +98,8 @@ internal interface StarContract {
             val CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH)
 
             // select stop_time.*, trip.*, calendar.*
-            const val CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.starcf.stoptimes"
+            const val CONTENT_TYPE =
+                "vnd.android.cursor.dir/vnd.fr.istic.mob.starcf.stoptimes"
             const val CONTENT_ITEM_TYPE =
                 "vnd.android.cursor.item/vnd.fr.istic.mob.starcf.stoptime"
         }
@@ -122,7 +124,8 @@ internal interface StarContract {
         companion object {
             const val CONTENT_PATH = "calendar"
             val CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH)
-            const val CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.starcf.calendars"
+            const val CONTENT_TYPE =
+                "vnd.android.cursor.dir/vnd.fr.istic.mob.starcf.calendars"
             const val CONTENT_ITEM_TYPE =
                 "vnd.android.cursor.item/vnd.fr.istic.mob.starcf.calendar"
         }
@@ -134,7 +137,8 @@ internal interface StarContract {
             val CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH)
 
             // select stop.stop_name, stop_time.arrival_time
-            const val CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.starcf.routedetails"
+            const val CONTENT_TYPE =
+                "vnd.android.cursor.dir/vnd.fr.istic.mob.starcf.routedetails"
             const val CONTENT_ITEM_TYPE =
                 "vnd.android.cursor.item/vnd.fr.istic.mob.starcf.routedetail"
         }
@@ -144,7 +148,8 @@ internal interface StarContract {
         companion object {
             const val CONTENT_PATH = "searchedstops"
             val CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH)
-            const val CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.starcf.searchedstops"
+            const val CONTENT_TYPE =
+                "vnd.android.cursor.dir/vnd.fr.istic.mob.starcf.searchedstops"
             const val CONTENT_ITEM_TYPE =
                 "vnd.android.cursor.item/vnd.fr.istic.mob.starcf.searchedstop"
         }
@@ -154,7 +159,8 @@ internal interface StarContract {
         companion object {
             const val CONTENT_PATH = "routesforstop"
             val CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH)
-            const val CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.starcf.routesforstops"
+            const val CONTENT_TYPE =
+                "vnd.android.cursor.dir/vnd.fr.istic.mob.starcf.routesforstops"
             const val CONTENT_ITEM_TYPE =
                 "vnd.android.cursor.item/vnd.fr.istic.mob.starcf.routesforstop"
         }

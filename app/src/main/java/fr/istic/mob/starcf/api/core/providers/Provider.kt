@@ -73,6 +73,7 @@ class Provider : ContentProvider() {
         selectionArgs: Array<out String>?,
         sortOrder: String?
     ): Cursor? {
+        database = BusScheduleApplication(context!!)
         var result: Cursor? = null
         try {
             when (URI_MATCHER.match(uri)) {

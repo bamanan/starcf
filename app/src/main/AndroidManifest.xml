@@ -6,23 +6,21 @@
     android:targetSandboxVersion="1"
     tools:targetApi="o">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
 
-    <permission-group android:name="starcf.permission.READ_WRITE" />
+    <permission-group android:name="starcf.permission.READ_WRITE"/>
+
     <permission
         android:name="starcf.permission.WRITE_STAR_PROVIDER"
-        android:description="@string/provider_write_permission"
         android:label="@string/provider_write_permission"
+        android:description="@string/provider_write_permission"
         android:permissionGroup="starcf.permission.READ_WRITE"
         android:protectionLevel="normal" />
 
-
-    <uses-permission android:name="starcf.permission.WRITE_STAR_PROVIDER" />
-    <uses-permission android:name="starcf.permission.READ_WRITE" />
 
     <application
         android:allowBackup="false"
@@ -47,7 +45,8 @@
             android:authorities="fr.istic.mob.starcf"
             android:enabled="true"
             android:exported="true"
-            android:multiprocess="true" />
+            android:multiprocess="true"
+            tools:ignore="ExportedContentProvider" />
 
     </application>
 

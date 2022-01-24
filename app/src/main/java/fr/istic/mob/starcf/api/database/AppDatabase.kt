@@ -34,8 +34,8 @@ abstract class AppDatabase : RoomDatabase() {
                 AppDatabase::class.java,
                 "star_database"
             )
-                .fallbackToDestructiveMigration()
                 .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
                 .build()
             INSTANCE = instance
             instance

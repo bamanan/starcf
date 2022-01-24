@@ -158,16 +158,6 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-            val cursor = contentResolver
-                .query(
-                    StarContract.BusRoutes.CONTENT_URI,
-                    null, null, null, ""
-                )
-            while (cursor!!.moveToNext()) {
-                val _id = cursor.getString(1)
-                val shortName = cursor.getString(2)
-                Log.d("TAG", "dataformprovider $_id $shortName")
-            }
 
             createPeriodicCalendarWatcherService()
         }
